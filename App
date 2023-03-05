@@ -122,84 +122,83 @@ public class App extends Application {
         updateRoundsLabel();
     }
 
-private void updateScoreLabels() {
-    playerScoreLabel.setText("Player: " + playerScore);
-    computerScoreLabel.setText("Computer: " + computerScore);
-}
-
-private void updateRoundsLabel() {
-    roundsLabel.setText("Rounds left: " + roundsToPlay);
-}
-
-private void displaySelection(App.Choice playerChoice, App.Choice computerChoice) {
-    Image playerSelectionImage = new Image(getClass().getResourceAsStream(playerChoice.getImagePath()));
-    playerSelectionImageView.setImage(playerSelectionImage);
-
-    Image computerSelectionImage = new Image(getClass().getResourceAsStream(computerChoice.getImagePath()));
-    computerSelectionImageView.setImage(computerSelectionImage);
-}
-
-private App.Outcome getOutcome(App.Choice playerChoice, App.Choice computerChoice) {
-    if (playerChoice == computerChoice) {
-        return App.Outcome.DRAW;
-    } else if (playerChoice == App.Choice.ROCK && computerChoice == App.Choice.SCISSORS ||
-            playerChoice == App.Choice.PAPER && computerChoice == App.Choice.ROCK ||
-            playerChoice == App.Choice.SCISSORS && computerChoice == App.Choice.PAPER) {
-        return App.Outcome.WIN;
-    } else {
-        return App.Outcome.LOSE;
-    }
-}
-
-
-
-private void playRound(App.Choice playerChoice) {
-    App.Choice computerChoice = getComputerChoice();
-    App.Outcome outcome = getOutcome(playerChoice, computerChoice);
-
-    displayChoices(playerChoice, computerChoice);
-
-    switch (outcome) {
-        case WIN:
-            playerScore++;
-            updateScoreLabels();
-            break;
-        case LOSE:
-            computerScore++;
-            updateScoreLabels();
-            break;
-        case DRAW:
-            break;
+    private void updateScoreLabels() {
+        playerScoreLabel.setText("Player: " + playerScore);
+        computerScoreLabel.setText("Computer: " + computerScore);
     }
 
-    if (playerScore >= WINNING_SCORE || computerScore >= WINNING_SCORE) {
-        // Display a message indicating that the game is over and ask the user if they want to play again
-        ButtonType yesButtonType = new ButtonType("Yes", ButtonBar.ButtonData.YES);
-        ButtonType noButtonType = new ButtonType("No", ButtonBar.ButtonData.NO);
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you want to play again?", yesButtonType, noButtonType);
-        alert.showAndWait();
-        if (alert.getResult() == yesButtonType) {
-            resetGame();
-        } else {
-            // End the game
-            Platform.exit();
+        private void updateRoundsLabel() {
+            roundsLabel.setText("Rounds left: " + roundsToPlay);
         }
-    } else {
-        // Continue the game
-        roundsToPlay--;
-        updateRoundsLabel();
-    }
-}
 
-private void displayChoices(App.Choice playerChoice, App.Choice computerChoice) {
-}
-private App.Choice getComputerChoice() {
-    int randomIndex = (int) (Math.random() * App.Choice.values().length);
-    return App.Choice.values()[randomIndex];
-}
+    private void displaySelection(App.Choice playerChoice, App.Choice computerChoice) {
+        Image playerSelectionImage = new Image(getClass().getResourceAsStream(playerChoice.getImagePath()));
+        playerSelectionImageView.setImage(playerSelectionImage);
 
-public static void main(String[] args) {
-    launch(args);
-}
+        Image computerSelectionImage = new Image(getClass().getResourceAsStream(computerChoice.getImagePath()));
+        computerSelectionImageView.setImage(computerSelectionImage);
     }
 
+    private App.Outcome getOutcome(App.Choice playerChoice, App.Choice computerChoice) {
+        if (playerChoice == computerChoice) {
+            return App.Outcome.DRAW;
+        } else if (playerChoice == App.Choice.ROCK && computerChoice == App.Choice.SCISSORS ||
+                playerChoice == App.Choice.PAPER && computerChoice == App.Choice.ROCK ||
+                playerChoice == App.Choice.SCISSORS && computerChoice == App.Choice.PAPER) {
+            return App.Outcome.WIN;
+        } else {
+            return App.Outcome.LOSE;
+        }
+    }
+
+
+
+    private void playRound(App.Choice playerChoice) {
+        App.Choice computerChoice = getComputerChoice();
+        App.Outcome outcome = getOutcome(playerChoice, computerChoice);
+
+        displayChoices(playerChoice, computerChoice);
+
+        switch (outcome) {
+            case WIN:
+                playerScore++;
+                updateScoreLabels();
+                break;
+            case LOSE:
+                computerScore++;
+                updateScoreLabels();
+                break;
+            case DRAW:
+                break;
+        }
+
+        if (playerScore >= WINNING_SCORE || computerScore >= WINNING_SCORE) {
+            // Display a message indicating that the game is over and ask the user if they want to play again
+            ButtonType yesButtonType = new ButtonType("Yes", ButtonBar.ButtonData.YES);
+            ButtonType noButtonType = new ButtonType("No", ButtonBar.ButtonData.NO);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you want to play again?", yesButtonType, noButtonType);
+            alert.showAndWait();
+            if (alert.getResult() == yesButtonType) {
+                resetGame();
+            } else {
+                // End the game
+                Platform.exit();
+            }
+        } else {
+            // Continue the game
+            roundsToPlay--;
+            updateRoundsLabel();
+        }
+    }
+
+    private void displayChoices(App.Choice playerChoice, App.Choice computerChoice) {
+    }
+    private App.Choice getComputerChoice() {
+        int randomIndex = (int) (Math.random() * App.Choice.values().length);
+        return App.Choice.values()[randomIndex];
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+        }
